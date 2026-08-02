@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "math-game", "math-game\math-game.csproj", "{33DF286A-035E-424E-98E1-307BB27D94E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "math-game", "math-game\math-game.csproj", "{19B8D215-C94D-4F10-BA37-868D2240E032}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +8,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{33DF286A-035E-424E-98E1-307BB27D94E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{33DF286A-035E-424E-98E1-307BB27D94E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{33DF286A-035E-424E-98E1-307BB27D94E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{33DF286A-035E-424E-98E1-307BB27D94E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19B8D215-C94D-4F10-BA37-868D2240E032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19B8D215-C94D-4F10-BA37-868D2240E032}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19B8D215-C94D-4F10-BA37-868D2240E032}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19B8D215-C94D-4F10-BA37-868D2240E032}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
