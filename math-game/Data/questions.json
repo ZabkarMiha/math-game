@@ -1,0 +1,107 @@
+[
+  {
+    "difficulty": "easy",
+    "questions": [
+      {
+        "id": 1,
+        "text": "9+9=?",
+        "answer": 18
+      },
+      {
+        "id": 2,
+        "text": "2+1=?",
+        "answer": 3
+      },
+      {
+        "id": 3,
+        "text": "11-6=?",
+        "answer": 5
+      },
+      {
+        "id": 4,
+        "text": "3-15=?",
+        "answer": -12
+      },
+      {
+        "id": 5,
+        "text": "3x9=?",
+        "answer": 27
+      },
+      {
+        "id": 6,
+        "text": "11x4=?",
+        "answer": 44
+      },
+      {
+        "id": 7,
+        "text": "14/2=?",
+        "answer": 7
+      },
+      {
+        "id": 8,
+        "text": "21/7=?",
+        "answer": 3
+      }
+    ]
+  },
+  {
+    "difficulty": "medium",
+    "questions": [
+      {
+        "id": 1,
+        "text": "9+13x2=?",
+        "answer": 35
+      },
+      {
+        "id": 2,
+        "text": "2x5x3=?",
+        "answer": 30
+      },
+      {
+        "id": 3,
+        "text": "10x10x2=?",
+        "answer": 200
+      },
+      {
+        "id": 4,
+        "text": "10/2x5",
+        "answer": 25
+      },
+      {
+        "id": 5,
+        "text": "15/3-8=?",
+        "answer": -3
+      },
+      {
+        "id": 6,
+        "text": "4+10+3x3=?",
+        "answer": 23
+      },
+      {
+        "id": 7,
+        "text": "4/4-3+10=?",
+        "answer": 8
+      },
+      {
+        "id": 8,
+        "text": "2x9x6/2=?",
+        "answer": 54
+      }
+    ]
+  },
+  {
+    "difficulty": "hard",
+    "questions": [
+      {
+        "id": 1,
+        "text": "3x12+7x4+11x10=?",
+        "answer": 174
+      },
+      {
+        "id": 2,
+        "text": "5x7-9x(40/5)=?",
+        "answer": -37
+      }
+    ]
+  }
+]
