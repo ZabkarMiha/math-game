@@ -6,19 +6,45 @@ namespace math_game.Helpers;
 
 public class PopulateQuestions
 {
-    public void PopulateList(List<Questions> questions)
+    private static readonly JsonSerializerOptions Options = new()
     {
-        string questionsJson = File.ReadAllText("Data/questions.json");
-        
-        var options = new JsonSerializerOptions
+        PropertyNameCaseInsensitive =  true,
+        Converters =
         {
-            PropertyNameCaseInsensitive =  true,
-            Converters =
-            {
-                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-            }
-        };
+            new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+        }
+    };
+    
+    public void PopulateList(List<QuestionTier> questions)
+    {
+        bool retry = true;
 
-        questions.AddRange(JsonSerializer.Deserialize<List<Questions>>(questionsJson, options)!);
+        while (retry)
+        {
+            try
+            {
+                retry = false;
+                
+                string questionsJson = File.ReadAllText("Data/questions.json");
+
+                questions.AddRange(JsonSerializer.Deserialize<List<QuestionTier>>(questionsJson, Options)!);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error reading questions.json " + e.Message);
+                Console.WriteLine("Retry?");
+                Console.WriteLine("Yes");
+                Console.WriteLine("No");
+
+                switch (Console.ReadLine())
+                {
+                    case "Yes":
+                        retry = true;
+                        break;
+                    case "No":
+                        throw;
+                }
+            }
+        }
     }
 }

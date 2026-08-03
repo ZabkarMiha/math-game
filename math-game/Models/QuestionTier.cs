@@ -3,7 +3,7 @@ using math_game.Lib;
 
 namespace math_game.Models;
 
-public class Questions
+public class QuestionTier
 {
     public DifficultyChoices Difficulty { get; set; }
     [JsonPropertyName("questions")]
