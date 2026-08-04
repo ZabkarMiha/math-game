@@ -7,31 +7,49 @@ Console.WriteLine("Welcome to the MathGame");
 PopulateQuestions populateQuestionsHelper = new PopulateQuestions();
 
 List<QuestionTier> questions = [];
-DifficultyChoices difficulty;
+DifficultyChoices difficulty = DifficultyChoices.Easy;
 int correctAnswers = 0;
 
 populateQuestionsHelper.PopulateList(questions);
 
-Console.WriteLine("Choose difficulty:");
-Console.WriteLine("Easy");
-Console.WriteLine("Medium");
-Console.WriteLine("Hard");
+bool validDifficultyChoice = false;
 
-switch (Console.ReadLine())
+while (!validDifficultyChoice)
 {
-    case "Easy":
-        difficulty = DifficultyChoices.Easy;
-        break;
-    case "Medium":
-        difficulty = DifficultyChoices.Medium;
-        break;
-    case "Hard":
-        difficulty = DifficultyChoices.Hard;
-        break;
-    default:
-        difficulty = DifficultyChoices.Easy;
-        break;
+    Console.WriteLine("Choose difficulty (case insensitive) or leave blank for random:");
+    Console.WriteLine("Easy");
+    Console.WriteLine("Medium");
+    Console.WriteLine("Hard");
+
+    switch (Console.ReadLine()?.ToLower())
+    {
+        case "easy":
+            difficulty = DifficultyChoices.Easy;
+            validDifficultyChoice  = true;
+            break;
+        case "medium":
+            difficulty = DifficultyChoices.Medium;
+            validDifficultyChoice  = true;
+            break;
+        case "hard":
+            difficulty = DifficultyChoices.Hard;
+            validDifficultyChoice  = true;
+            break;
+        case "":
+            var rand = new Random();
+            var difficultyChoicesArray = Enum.GetNames<DifficultyChoices>();
+            
+            difficulty = (DifficultyChoices)rand.Next(difficultyChoicesArray.Length);
+            
+            validDifficultyChoice  = true;
+            break;
+        default:
+            Console.WriteLine("Invalid choice");
+            break;
+    }
 }
+
+Console.WriteLine("Selected difficulty: " + difficulty);
 
 foreach (var questionTier in questions)
 {
@@ -39,11 +57,20 @@ foreach (var questionTier in questions)
     {
         foreach (var question in questionTier.QuestionsList)
         {
-            Console.WriteLine(question.Text);
+            int answer = 0;
+            bool success = false;
+
+            while (!success)
+            {
+                Console.WriteLine(question.Text);
             
-            Console.WriteLine("Your answer: ");
-            
-            int answer = short.Parse(Console.ReadLine());
+                Console.WriteLine("Your answer: ");
+                
+                success = int.TryParse(Console.ReadLine(), out answer);
+
+                if (!success)
+                    Console.WriteLine("Only round positive and negative numbers are accepted");
+            }
 
             if (answer == question.Answer)
             {
