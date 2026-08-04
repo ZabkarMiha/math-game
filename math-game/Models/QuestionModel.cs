@@ -1,6 +1,6 @@
 namespace math_game.Models;
 
-public class Question
+public class QuestionModel
 {
     public int Id { get; set; } = 0;
     public string Text { get; set; } = string.Empty;

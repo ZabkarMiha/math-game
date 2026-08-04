@@ -4,13 +4,11 @@ using math_game.Lib;
 
 Console.WriteLine("Welcome to the MathGame");
 
-PopulateQuestions populateQuestionsHelper = new PopulateQuestions();
+QuestionsHelper questionsHelper = new QuestionsHelper();
 
-List<QuestionTier> questions = [];
+List<QuestionTierModel> questions = questionsHelper.PopulateList();
 DifficultyChoices difficulty = DifficultyChoices.Easy;
 int correctAnswers = 0;
-
-populateQuestionsHelper.PopulateList(questions);
 
 bool validDifficultyChoice = false;
 

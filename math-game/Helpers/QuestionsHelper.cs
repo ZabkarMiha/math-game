@@ -4,7 +4,7 @@ using math_game.Models;
 
 namespace math_game.Helpers;
 
-public class PopulateQuestions
+public class QuestionsHelper
 {
     private static readonly JsonSerializerOptions Options = new()
     {
@@ -15,8 +15,10 @@ public class PopulateQuestions
         }
     };
     
-    public void PopulateList(List<QuestionTier> questions)
+    public List<QuestionTierModel> PopulateList()
     {
+        List<QuestionTierModel> questions = [];
+        
         bool retry = true;
 
         while (retry)
@@ -27,7 +29,7 @@ public class PopulateQuestions
                 
                 string questionsJson = File.ReadAllText("Data/questions.json");
 
-                questions.AddRange(JsonSerializer.Deserialize<List<QuestionTier>>(questionsJson, Options)!);
+                questions.AddRange(JsonSerializer.Deserialize<List<QuestionTierModel>>(questionsJson, Options)!);
             }
             catch (Exception e)
             {
@@ -46,5 +48,12 @@ public class PopulateQuestions
                 }
             }
         }
+
+        return questions;
+    }
+
+    public void RandomizeList(ref List<QuestionTierModel> questions)
+    {
+        
     }
 }
