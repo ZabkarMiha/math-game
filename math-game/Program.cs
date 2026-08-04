@@ -53,7 +53,9 @@ foreach (var questionTier in questions)
 {
     if (questionTier.Difficulty == difficulty)
     {
-        foreach (var question in questionTier.QuestionsList)
+        List<QuestionModel> randomizedQuestions = questionsHelper.RandomizeList(questionTier.QuestionsList);
+        
+        foreach (var question in randomizedQuestions)
         {
             int answer = 0;
             bool success = false;

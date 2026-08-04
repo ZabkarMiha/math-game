@@ -52,8 +52,10 @@ public class QuestionsHelper
         return questions;
     }
 
-    public void RandomizeList(ref List<QuestionTierModel> questions)
+    public List<QuestionModel> RandomizeList(List<QuestionModel> questions)
     {
-        
+        IOrderedEnumerable<QuestionModel> randomizedList = questions.OrderBy(x => Guid.NewGuid());
+
+        return randomizedList.ToList();
     }
 }
