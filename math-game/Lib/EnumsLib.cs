@@ -1,6 +1,7 @@
 namespace math_game.Lib;
 
-public enum DifficultyChoices {
+public enum DifficultyChoices
+{
     Easy,
     Medium,
     Hard

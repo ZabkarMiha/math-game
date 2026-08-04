@@ -8,17 +8,17 @@ public class QuestionsHelper
 {
     private static readonly JsonSerializerOptions Options = new()
     {
-        PropertyNameCaseInsensitive =  true,
+        PropertyNameCaseInsensitive = true,
         Converters =
         {
             new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
         }
     };
-    
+
     public List<QuestionTierModel> PopulateList()
     {
         List<QuestionTierModel> questions = [];
-        
+
         bool retry = true;
 
         while (retry)
@@ -26,7 +26,7 @@ public class QuestionsHelper
             try
             {
                 retry = false;
-                
+
                 string questionsJson = File.ReadAllText("Data/questions.json");
 
                 questions.AddRange(JsonSerializer.Deserialize<List<QuestionTierModel>>(questionsJson, Options)!);

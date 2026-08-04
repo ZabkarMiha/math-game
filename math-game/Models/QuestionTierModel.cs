@@ -6,6 +6,5 @@ namespace math_game.Models;
 public class QuestionTierModel
 {
     public DifficultyChoices Difficulty { get; set; }
-    [JsonPropertyName("questions")]
-    public List<QuestionModel> QuestionsList { get; set; } = [];
+    [JsonPropertyName("questions")] public List<QuestionModel> QuestionsList { get; set; } = [];
 }

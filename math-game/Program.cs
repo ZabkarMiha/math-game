@@ -23,23 +23,23 @@ while (!validDifficultyChoice)
     {
         case "easy":
             difficulty = DifficultyChoices.Easy;
-            validDifficultyChoice  = true;
+            validDifficultyChoice = true;
             break;
         case "medium":
             difficulty = DifficultyChoices.Medium;
-            validDifficultyChoice  = true;
+            validDifficultyChoice = true;
             break;
         case "hard":
             difficulty = DifficultyChoices.Hard;
-            validDifficultyChoice  = true;
+            validDifficultyChoice = true;
             break;
         case "":
             var rand = new Random();
             var difficultyChoicesArray = Enum.GetNames<DifficultyChoices>();
-            
+
             difficulty = (DifficultyChoices)rand.Next(difficultyChoicesArray.Length);
-            
-            validDifficultyChoice  = true;
+
+            validDifficultyChoice = true;
             break;
         default:
             Console.WriteLine("Invalid choice");
@@ -54,7 +54,7 @@ foreach (var questionTier in questions)
     if (questionTier.Difficulty == difficulty)
     {
         List<QuestionModel> randomizedQuestions = questionsHelper.RandomizeList(questionTier.QuestionsList);
-        
+
         foreach (var question in randomizedQuestions)
         {
             int answer = 0;
@@ -63,9 +63,9 @@ foreach (var questionTier in questions)
             while (!success)
             {
                 Console.WriteLine(question.Text);
-            
+
                 Console.WriteLine("Your answer: ");
-                
+
                 success = int.TryParse(Console.ReadLine(), out answer);
 
                 if (!success)
