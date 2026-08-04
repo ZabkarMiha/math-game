@@ -6,80 +6,99 @@ Console.WriteLine("Welcome to the MathGame");
 
 QuestionsHelper questionsHelper = new QuestionsHelper();
 
-List<QuestionTierModel> questions = questionsHelper.PopulateList();
-DifficultyChoices difficulty = DifficultyChoices.Easy;
-int correctAnswers = 0;
+List<QuestionTierModel> questions;
 
-bool validDifficultyChoice = false;
+while (true)
+{
+    try
+    {
+        questions = questionsHelper.PopulateList();
 
-while (!validDifficultyChoice)
+        break;
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine("Error reading questions.json " + e.Message);
+        Console.WriteLine("Retry? \nYes \nNo");
+
+        switch (Console.ReadLine())
+        {
+            case "Yes":
+                break;
+            case "No":
+                throw;
+        }
+    }
+}
+
+DifficultyChoices difficulty;
+
+while (true)
 {
     Console.WriteLine("Choose difficulty (case insensitive) or leave blank for random:");
-    Console.WriteLine("Easy");
-    Console.WriteLine("Medium");
-    Console.WriteLine("Hard");
+    Console.WriteLine("Easy \nMedium \nHard");
 
     switch (Console.ReadLine()?.ToLower())
     {
         case "easy":
             difficulty = DifficultyChoices.Easy;
-            validDifficultyChoice = true;
             break;
         case "medium":
             difficulty = DifficultyChoices.Medium;
-            validDifficultyChoice = true;
             break;
         case "hard":
             difficulty = DifficultyChoices.Hard;
-            validDifficultyChoice = true;
             break;
         case "":
-            var rand = new Random();
-            var difficultyChoicesArray = Enum.GetNames<DifficultyChoices>();
-
-            difficulty = (DifficultyChoices)rand.Next(difficultyChoicesArray.Length);
-
-            validDifficultyChoice = true;
+            DifficultyChoices[] difficultyChoicesArray = Enum.GetValues<DifficultyChoices>();
+            difficulty = difficultyChoicesArray[Random.Shared.Next(difficultyChoicesArray.Length)];
             break;
         default:
             Console.WriteLine("Invalid choice");
-            break;
+            continue;
     }
+
+    break;
 }
 
 Console.WriteLine("Selected difficulty: " + difficulty);
 
+int correctAnswers = 0;
+
 foreach (var questionTier in questions)
 {
-    if (questionTier.Difficulty == difficulty)
+    if (questionTier.Difficulty != difficulty)
     {
-        List<QuestionModel> randomizedQuestions = questionsHelper.RandomizeList(questionTier.QuestionsList);
+        break;
+    }
 
-        foreach (var question in randomizedQuestions)
+    List<QuestionModel> randomizedQuestions = questionsHelper.RandomizeList(questionTier.QuestionsList);
+
+    foreach (var question in randomizedQuestions)
+    {
+        int answer;
+
+        while (true)
         {
-            int answer = 0;
-            bool success = false;
+            Console.WriteLine(question.Text);
 
-            while (!success)
+            Console.WriteLine("Your answer: ");
+
+            if (int.TryParse(Console.ReadLine(), out answer))
             {
-                Console.WriteLine(question.Text);
-
-                Console.WriteLine("Your answer: ");
-
-                success = int.TryParse(Console.ReadLine(), out answer);
-
-                if (!success)
-                    Console.WriteLine("Only round positive and negative numbers are accepted");
+                break;
             }
 
-            if (answer == question.Answer)
-            {
-                Console.WriteLine("Correct");
-                correctAnswers++;
-            }
-            else
-                Console.WriteLine("Incorrect");
+            Console.WriteLine("Only round positive and negative numbers are accepted");
         }
+
+        if (answer == question.Answer)
+        {
+            Console.WriteLine("Correct");
+            correctAnswers++;
+        }
+        else
+            Console.WriteLine("Incorrect");
     }
 }
 

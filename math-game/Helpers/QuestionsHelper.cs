@@ -17,45 +17,15 @@ public class QuestionsHelper
 
     public List<QuestionTierModel> PopulateList()
     {
-        List<QuestionTierModel> questions = [];
-
-        bool retry = true;
-
-        while (retry)
-        {
-            try
-            {
-                retry = false;
-
-                string questionsJson = File.ReadAllText("Data/questions.json");
-
-                questions.AddRange(JsonSerializer.Deserialize<List<QuestionTierModel>>(questionsJson, Options)!);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error reading questions.json " + e.Message);
-                Console.WriteLine("Retry?");
-                Console.WriteLine("Yes");
-                Console.WriteLine("No");
-
-                switch (Console.ReadLine())
-                {
-                    case "Yes":
-                        retry = true;
-                        break;
-                    case "No":
-                        throw;
-                }
-            }
-        }
-
-        return questions;
+        string questionsJson = File.ReadAllText("Data/questions.json");
+        
+        return JsonSerializer.Deserialize<List<QuestionTierModel>>(questionsJson, Options)!;
     }
 
     public List<QuestionModel> RandomizeList(List<QuestionModel> questions)
     {
-        IOrderedEnumerable<QuestionModel> randomizedList = questions.OrderBy(x => Guid.NewGuid());
-
-        return randomizedList.ToList();
+        List<QuestionModel> randomizedList = questions.OrderBy(x => Guid.NewGuid()).ToList();
+        
+        return randomizedList;
     }
 }
