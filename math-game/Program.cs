@@ -1,10 +1,13 @@
-﻿using math_game.Models;
+﻿using System.Diagnostics;
+using math_game.Models;
 using math_game.Helpers;
 using math_game.Lib;
 
 Console.WriteLine("Welcome to the MathGame");
 
-QuestionsHelper questionsHelper = new QuestionsHelper();
+QuestionsHelper questionsHelper = new();
+
+Stopwatch stopwatch = new();
 
 List<QuestionTierModel> questions;
 
@@ -63,6 +66,8 @@ while (true)
 
 Console.WriteLine("Selected difficulty: " + difficulty);
 
+stopwatch.Start();
+
 int correctAnswers = 0;
 
 foreach (var questionTier in questions)
@@ -101,6 +106,10 @@ foreach (var questionTier in questions)
             Console.WriteLine("Incorrect");
     }
 }
+
+stopwatch.Stop();
+
+Console.WriteLine($"Time taken to solve the questions: {stopwatch.Elapsed.Minutes}min {stopwatch.Elapsed.Seconds}sec");
 
 Console.WriteLine("Number of correct answers: " + correctAnswers);
 
