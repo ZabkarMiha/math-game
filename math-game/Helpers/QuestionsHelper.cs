@@ -32,32 +32,11 @@ public class QuestionsHelper
     {
         List<QuestionModel> questions = [];
 
-        if (difficulty is DifficultyChoices.Easy or DifficultyChoices.Medium or DifficultyChoices.Hard
-            or DifficultyChoices.Mixed)
-        {
-            PopulateDifficulty(questionsTiers, difficulty, questions);
-        }
-        else if (difficulty == DifficultyChoices.Random)
-        {
-            DifficultyChoices[] difficultyChoicesArray = Enum.GetValues<DifficultyChoices>()
-                .Where(x => x != DifficultyChoices.Random).ToArray();
-
-            DifficultyChoices randomDifficulty =
-                difficultyChoicesArray[Random.Shared.Next(difficultyChoicesArray.Length)];
-
-            PopulateDifficulty(questionsTiers, randomDifficulty, questions);
-        }
+        PopulateDifficulty(questionsTiers, difficulty, questions);
 
         return RandomizeList(questions);
     }
-
-    private List<QuestionModel> RandomizeList(List<QuestionModel> questions)
-    {
-        List<QuestionModel> randomizedList = questions.OrderBy(x => Guid.NewGuid()).ToList();
-
-        return randomizedList;
-    }
-
+    
     private void PopulateDifficulty(List<QuestionTierModel> questionTierModels, DifficultyChoices difficultyChoices,
         List<QuestionModel> questionModels)
     {
@@ -79,4 +58,12 @@ public class QuestionsHelper
             }
         }
     }
+
+    private List<QuestionModel> RandomizeList(List<QuestionModel> questions)
+    {
+        List<QuestionModel> randomizedList = questions.OrderBy(x => Guid.NewGuid()).ToList();
+
+        return randomizedList;
+    }
+    
 }

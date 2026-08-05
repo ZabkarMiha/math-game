@@ -6,6 +6,7 @@ using math_game.Lib;
 Console.WriteLine("Welcome to the MathGame");
 
 QuestionsHelper questionsHelper = new();
+DifficultyHelper difficultyHelper = new();
 Stopwatch stopwatch = new();
 
 DifficultyChoices difficulty;
@@ -30,7 +31,7 @@ while (true)
             difficulty = DifficultyChoices.Mixed;
             break;
         case "random":
-            difficulty = DifficultyChoices.Random;
+            difficulty = difficultyHelper.RandomDifficulty();
             break;
         default:
             Console.WriteLine("Invalid choice");
