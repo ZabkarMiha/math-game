@@ -41,7 +41,7 @@ while (true)
     break;
 }
 
-Console.WriteLine($"Selected difficulty: {difficulty}");
+Console.WriteLine($"\nSelected difficulty: {difficulty}");
 
 List<QuestionModel> questions;
 
@@ -68,9 +68,20 @@ while (true)
     }
 }
 
-stopwatch.Start();
-
 Console.WriteLine($"Number of questions: {questions.Count}");
+
+Console.WriteLine("\nGame starting in... \n");
+
+for (int i = 3; i > 0; i--)
+{
+    Console.WriteLine($"{i}...");
+    
+    Thread.Sleep(1000);
+}
+
+Console.WriteLine("Go\n");
+
+stopwatch.Start();
 
 int correctAnswers = 0;
 
