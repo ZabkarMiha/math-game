@@ -31,7 +31,7 @@ while (true)
             difficulty = DifficultyChoices.Mixed;
             break;
         case "random":
-            difficulty = difficultyHelper.RandomDifficulty();
+            difficulty = difficultyHelper.ReturnRandomDifficulty();
             break;
         default:
             Console.WriteLine("Invalid choice");
@@ -49,7 +49,7 @@ while (true)
 {
     try
     {
-        questions = questionsHelper.ReturnPopulatedList(difficulty);
+        questions = questionsHelper.ReturnPopulatedQuestionsList(difficulty);
 
         break;
     }

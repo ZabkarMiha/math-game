@@ -4,7 +4,7 @@ namespace math_game.Helpers;
 
 public class DifficultyHelper
 {
-    public DifficultyChoices RandomDifficulty()
+    public DifficultyChoices ReturnRandomDifficulty()
     {
         DifficultyChoices[] difficultyChoicesArray = Enum.GetValues<DifficultyChoices>();
         

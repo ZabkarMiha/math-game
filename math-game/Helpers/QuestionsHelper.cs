@@ -16,7 +16,7 @@ public class QuestionsHelper
         }
     };
 
-    public List<QuestionModel> ReturnPopulatedList(DifficultyChoices difficulty)
+    public List<QuestionModel> ReturnPopulatedQuestionsList(DifficultyChoices difficulty)
     {
         List<QuestionTierModel> questions = [];
 
@@ -24,46 +24,44 @@ public class QuestionsHelper
 
         questions.AddRange(JsonSerializer.Deserialize<List<QuestionTierModel>>(questionsJson, Options)!);
 
-        return ReturnCorrectDifficultyList(questions, difficulty);
+        return ReturnCorrectDifficultyQuestionsList(questions, difficulty);
     }
 
-    private List<QuestionModel> ReturnCorrectDifficultyList(List<QuestionTierModel> questionsTiers,
+    private List<QuestionModel> ReturnCorrectDifficultyQuestionsList(List<QuestionTierModel> questionsTiers,
         DifficultyChoices difficulty)
     {
         List<QuestionModel> questions = [];
 
-        PopulateDifficulty(questionsTiers, difficulty, questions);
+        PopulateFromDifficultyChoice(questionsTiers, difficulty, questions);
 
-        return RandomizeList(questions);
+        return RandomizeQuestionsList(questions);
     }
     
-    private void PopulateDifficulty(List<QuestionTierModel> questionTierModels, DifficultyChoices difficultyChoices,
-        List<QuestionModel> questionModels)
+    private void PopulateFromDifficultyChoice(List<QuestionTierModel> questionTierList, DifficultyChoices difficultyChoice,
+        List<QuestionModel> questionsList)
     {
-        if (difficultyChoices is DifficultyChoices.Easy or DifficultyChoices.Medium or DifficultyChoices.Hard)
+        if (difficultyChoice is DifficultyChoices.Easy or DifficultyChoices.Medium or DifficultyChoices.Hard)
         {
-            foreach (var questionTier in questionTierModels)
+            foreach (var questionTier in questionTierList)
             {
-                if (questionTier.Difficulty != difficultyChoices) continue;
+                if (questionTier.Difficulty != difficultyChoice) continue;
 
-                questionModels.AddRange(questionTier.QuestionsList);
+                questionsList.AddRange(questionTier.QuestionsList);
             }
         }
 
-        if (difficultyChoices == DifficultyChoices.Mixed)
+        if (difficultyChoice == DifficultyChoices.Mixed)
         {
-            foreach (var questionTier in questionTierModels)
+            foreach (var questionTier in questionTierList)
             {
-                questionModels.AddRange(questionTier.QuestionsList);
+                questionsList.AddRange(questionTier.QuestionsList);
             }
         }
     }
 
-    private List<QuestionModel> RandomizeList(List<QuestionModel> questions)
+    private List<QuestionModel> RandomizeQuestionsList(List<QuestionModel> questions)
     {
-        List<QuestionModel> randomizedList = questions.OrderBy(x => Guid.NewGuid()).ToList();
-
-        return randomizedList;
+        return questions.OrderBy(x => Guid.NewGuid()).ToList();
     }
     
 }
