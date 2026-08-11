@@ -3,7 +3,7 @@ using math_game.Models;
 using math_game.Helpers;
 using math_game.Lib;
 
-Console.WriteLine("Welcome to the MathGame");
+Console.WriteLine("Welcome to the MathGame \n");
 
 QuestionsHelper questionsHelper = new();
 DifficultyHelper difficultyHelper = new();
@@ -12,6 +12,7 @@ Stopwatch stopwatch = new();
 bool gameloop = true;
 
 List<QuestionTierModel> questionsTiers;
+List<ResultModel> results = [];
 
 while (true)
 {
@@ -24,7 +25,7 @@ while (true)
     catch (Exception e)
     {
         Console.WriteLine($"Something went wrong. {e.Message}");
-        Console.WriteLine("Retry? \nYes \nNo");
+        Console.WriteLine("\nRetry? \nYes \nNo \n");
 
         switch (Console.ReadLine())
         {
@@ -43,7 +44,7 @@ do
     while (true)
     {
         Console.WriteLine("Choose difficulty (case insensitive)");
-        Console.WriteLine("Easy \nMedium \nHard \nMixed \nRandom");
+        Console.WriteLine("\nEasy \nMedium \nHard \nMixed \nRandom \n");
 
         switch (Console.ReadLine()?.ToLower())
         {
@@ -69,16 +70,18 @@ do
 
         break;
     }
-    
+
     Console.Clear();
 
-    Console.WriteLine($"\nSelected difficulty: {difficulty}");
+    Console.WriteLine($"Selected difficulty: {difficulty}");
 
     List<QuestionModel> questions = questionsHelper.ReturnCorrectDifficultyQuestionsList(questionsTiers, difficulty);
 
+    List<int> answers = [];
+
     Console.WriteLine($"Number of questions: {questions.Count}");
 
-    Console.WriteLine("\nGame starting in... \n");
+    Console.WriteLine("\nGame starting in...");
 
     for (int i = 3; i > 0; i--)
     {
@@ -87,7 +90,11 @@ do
         Thread.Sleep(1000);
     }
 
-    Console.WriteLine("Go\n");
+    Console.WriteLine("\nGo");
+
+    Thread.Sleep(1000);
+
+    Console.Clear();
 
     stopwatch.Start();
 
@@ -99,12 +106,13 @@ do
 
         while (true)
         {
-            Console.WriteLine(question.Text);
+            Console.WriteLine($"{question.Text}");
 
             Console.WriteLine("Your answer: ");
 
             if (int.TryParse(Console.ReadLine(), out answer))
             {
+                answers.Add(answer);
                 break;
             }
 
@@ -118,17 +126,31 @@ do
         }
         else
             Console.WriteLine("Incorrect");
-    }
 
+        Thread.Sleep(700);
+
+        Console.Clear();
+    }
 
     stopwatch.Stop();
 
-    Console.WriteLine(
-        $"\nTime taken to solve the questions: {stopwatch.Elapsed.Minutes}min {stopwatch.Elapsed.Seconds}sec");
+    ResultModel result = new()
+    {
+        Difficulty = difficulty,
+        Questions = questions,
+        Answers = answers,
+        TimeTaken = $"{stopwatch.Elapsed.Minutes}min {stopwatch.Elapsed.Seconds}sec",
+        CorrectAnswers = correctAnswers
+    };
 
-    Console.WriteLine($"Number of correct answers: {correctAnswers} \n");
-    
-    Console.WriteLine("Go again? \nYes \nNo");
+    results.Add(result);
+
+    Console.WriteLine(
+        $"Time taken to solve the questions: {stopwatch.Elapsed.Minutes}min {stopwatch.Elapsed.Seconds}sec");
+
+    Console.WriteLine($"Number of correct answers: {correctAnswers}");
+
+    Console.WriteLine("\nGo again? \nYes \nNo \n");
 
     switch (Console.ReadLine()?.ToLower())
     {
@@ -139,9 +161,27 @@ do
             gameloop = false;
             break;
     }
-    
 } while (gameloop);
 
-Console.WriteLine("\nPress any key to exit");
+Console.Clear();
+
+Console.WriteLine("Would you like to view your results? \nYes \nNo \n");
+
+switch (Console.ReadLine())
+{
+    case "yes":
+        Console.Clear();
+        foreach (var result in results)
+        {
+            Console.WriteLine(result.ToString());
+        }
+
+        break;
+    case "no":
+        Console.Clear();
+        break;
+}
+
+Console.WriteLine("Press any key to exit");
 
 Console.ReadLine();
