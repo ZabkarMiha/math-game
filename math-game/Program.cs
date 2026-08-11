@@ -127,7 +127,7 @@ do
         else
             Console.WriteLine("Incorrect");
 
-        Thread.Sleep(700);
+        Thread.Sleep(500);
 
         Console.Clear();
     }
@@ -142,6 +142,8 @@ do
         TimeTaken = $"{stopwatch.Elapsed.Minutes}min {stopwatch.Elapsed.Seconds}sec",
         CorrectAnswers = correctAnswers
     };
+
+    stopwatch.Reset();
 
     results.Add(result);
 
