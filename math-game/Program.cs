@@ -5,47 +5,32 @@ using math_game.Lib;
 
 Console.WriteLine("Welcome to the MathGame \n");
 
+//Initialize helpers and lists
 QuestionsHelper questionsHelper = new();
 DifficultyHelper difficultyHelper = new();
 Stopwatch stopwatch = new();
-
-bool gameloop = true;
-
 List<QuestionTierModel> questionsTiers;
 List<ResultModel> results = [];
 
+//Populate list and handle potential error
 while (true)
 {
     try
     {
         questionsTiers = questionsHelper.ReturnAllQuestionTiers();
-
         break;
     }
     catch (Exception e)
     {
-        while (true)
+        if (!AskYesNo($"Something went wrong. {e.Message} \nRetry?"))
         {
-            Console.WriteLine($"Something went wrong. {e.Message}");
-            Console.WriteLine("\nRetry? \nYes \nNo \n");
-
-            switch (Console.ReadLine())
-            {
-                case "Yes":
-                    break;
-                case "No":
-                    throw;
-                default:
-                    Console.WriteLine("\nInvalid choice");
-                    Thread.Sleep(1500);
-                    Console.Clear();
-                    continue;
-            }
-
-            break;
+            throw;
         }
     }
 }
+
+//Game loop
+bool gameloop;
 
 do
 {
@@ -84,32 +69,25 @@ do
     }
 
     Console.Clear();
-
     Console.WriteLine($"Selected difficulty: {difficulty}");
 
     List<QuestionModel> questions = questionsHelper.ReturnCorrectDifficultyQuestionsList(questionsTiers, difficulty);
-
     List<int> answers = [];
 
     Console.WriteLine($"Number of questions: {questions.Count}");
-
     Console.WriteLine("\nGame starting in...");
 
     for (int i = 3; i > 0; i--)
     {
         Console.WriteLine($"{i}...");
-
         Thread.Sleep(1000);
     }
 
     Console.WriteLine("\nGo");
-
     Thread.Sleep(1000);
-
     Console.Clear();
 
     stopwatch.Start();
-
     int correctAnswers = 0;
 
     foreach (var question in questions)
@@ -119,7 +97,6 @@ do
         while (true)
         {
             Console.WriteLine($"{question.Text}");
-
             Console.WriteLine("Your answer: ");
 
             if (int.TryParse(Console.ReadLine(), out answer))
@@ -128,11 +105,13 @@ do
                 break;
             }
 
+            stopwatch.Stop();
+
             Console.WriteLine("\nOnly round positive and negative numbers are accepted");
-
             Thread.Sleep(1500);
-
             Console.Clear();
+
+            stopwatch.Start();
         }
 
         if (answer == question.Answer)
@@ -141,10 +120,11 @@ do
             correctAnswers++;
         }
         else
+        {
             Console.WriteLine("Incorrect");
+        }
 
         Thread.Sleep(500);
-
         Console.Clear();
     }
 
@@ -162,66 +142,47 @@ do
     };
 
     stopwatch.Reset();
-
     results.Add(result);
 
-    Console.WriteLine(
-        $"Time taken to solve the questions: {stopwatchTime}");
-
+    Console.WriteLine($"Time taken to solve the questions: {stopwatchTime}");
     Console.WriteLine($"Number of correct answers: {correctAnswers} \n");
 
-    while (true)
-    {
-        Console.WriteLine("Go again? \nYes \nNo \n");
-
-        switch (Console.ReadLine()?.ToLower())
-        {
-            case "yes":
-                Console.Clear();
-                break;
-            case "no":
-                gameloop = false;
-                break;
-            default:
-                Console.WriteLine("\nInvalid choice");
-                Thread.Sleep(1500);
-                Console.Clear();
-                continue;
-        }
-
-        break;
-    }
+    gameloop = AskYesNo("Go again?");
+    
+    Console.Clear();
 } while (gameloop);
 
-Console.Clear();
-
-while (true)
+//Results option
+if (AskYesNo("Would you like to view your results?"))
 {
-    Console.WriteLine("Would you like to view your results? \nYes \nNo \n");
-
-    switch (Console.ReadLine())
+    Console.Clear();
+    foreach (var result in results)
     {
-        case "yes":
-            Console.Clear();
-            foreach (var result in results)
-            {
-                Console.WriteLine(result.ToString());
-            }
-
-            break;
-        case "no":
-            Console.Clear();
-            break;
-        default:
-            Console.WriteLine("\nInvalid choice");
-            Thread.Sleep(1500);
-            Console.Clear();
-            continue;
+        Console.WriteLine(result.ToString());
     }
-
-    break;
+}
+else
+{
+    Console.Clear();
 }
 
 Console.WriteLine("Press any key to exit");
-
 Console.ReadLine();
+return;
+
+//Yes or No prompt method
+bool AskYesNo(string prompt)
+{
+    while (true)
+    {
+        Console.WriteLine($"{prompt} \nYes \nNo \n");
+        string input = Console.ReadLine()?.Trim() ?? "";
+
+        if (input.Equals("yes", StringComparison.OrdinalIgnoreCase)) return true;
+        if (input.Equals("no", StringComparison.OrdinalIgnoreCase)) return false;
+
+        Console.WriteLine("\nInvalid choice");
+        Thread.Sleep(1200);
+        Console.Clear();
+    }
+}
