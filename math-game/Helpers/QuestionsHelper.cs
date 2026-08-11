@@ -16,18 +16,18 @@ public class QuestionsHelper
         }
     };
 
-    public List<QuestionModel> ReturnPopulatedQuestionsList(DifficultyChoices difficulty)
+    public List<QuestionTierModel> ReturnAllQuestionTiers()
     {
-        List<QuestionTierModel> questions = [];
-
+        List<QuestionTierModel> questionsTierList = [];
+        
         string questionsJson = File.ReadAllText("Data/questions.json");
+        
+        questionsTierList.AddRange(JsonSerializer.Deserialize<List<QuestionTierModel>>(questionsJson, Options)!);
 
-        questions.AddRange(JsonSerializer.Deserialize<List<QuestionTierModel>>(questionsJson, Options)!);
-
-        return ReturnCorrectDifficultyQuestionsList(questions, difficulty);
+        return questionsTierList;
     }
 
-    private List<QuestionModel> ReturnCorrectDifficultyQuestionsList(List<QuestionTierModel> questionsTiers,
+    public List<QuestionModel> ReturnCorrectDifficultyQuestionsList(List<QuestionTierModel> questionsTiers,
         DifficultyChoices difficulty)
     {
         List<QuestionModel> questions = [];

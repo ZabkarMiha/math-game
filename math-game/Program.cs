@@ -9,47 +9,15 @@ QuestionsHelper questionsHelper = new();
 DifficultyHelper difficultyHelper = new();
 Stopwatch stopwatch = new();
 
-DifficultyChoices difficulty;
+bool gameloop = true;
 
-while (true)
-{
-    Console.WriteLine("Choose difficulty (case insensitive)");
-    Console.WriteLine("Easy \nMedium \nHard \nMixed \nRandom");
-
-    switch (Console.ReadLine()?.ToLower())
-    {
-        case "easy":
-            difficulty = DifficultyChoices.Easy;
-            break;
-        case "medium":
-            difficulty = DifficultyChoices.Medium;
-            break;
-        case "hard":
-            difficulty = DifficultyChoices.Hard;
-            break;
-        case "mixed":
-            difficulty = DifficultyChoices.Mixed;
-            break;
-        case "random":
-            difficulty = difficultyHelper.ReturnRandomDifficulty();
-            break;
-        default:
-            Console.WriteLine("Invalid choice");
-            continue;
-    }
-
-    break;
-}
-
-Console.WriteLine($"\nSelected difficulty: {difficulty}");
-
-List<QuestionModel> questions;
+List<QuestionTierModel> questionsTiers;
 
 while (true)
 {
     try
     {
-        questions = questionsHelper.ReturnPopulatedQuestionsList(difficulty);
+        questionsTiers = questionsHelper.ReturnAllQuestionTiers();
 
         break;
     }
@@ -68,55 +36,112 @@ while (true)
     }
 }
 
-Console.WriteLine($"Number of questions: {questions.Count}");
-
-Console.WriteLine("\nGame starting in... \n");
-
-for (int i = 3; i > 0; i--)
+do
 {
-    Console.WriteLine($"{i}...");
-    
-    Thread.Sleep(1000);
-}
-
-Console.WriteLine("Go\n");
-
-stopwatch.Start();
-
-int correctAnswers = 0;
-
-foreach (var question in questions)
-{
-    int answer;
+    DifficultyChoices difficulty;
 
     while (true)
     {
-        Console.WriteLine(question.Text);
+        Console.WriteLine("Choose difficulty (case insensitive)");
+        Console.WriteLine("Easy \nMedium \nHard \nMixed \nRandom");
 
-        Console.WriteLine("Your answer: ");
-
-        if (int.TryParse(Console.ReadLine(), out answer))
+        switch (Console.ReadLine()?.ToLower())
         {
-            break;
+            case "easy":
+                difficulty = DifficultyChoices.Easy;
+                break;
+            case "medium":
+                difficulty = DifficultyChoices.Medium;
+                break;
+            case "hard":
+                difficulty = DifficultyChoices.Hard;
+                break;
+            case "mixed":
+                difficulty = DifficultyChoices.Mixed;
+                break;
+            case "random":
+                difficulty = difficultyHelper.ReturnRandomDifficulty();
+                break;
+            default:
+                Console.WriteLine("Invalid choice");
+                continue;
         }
 
-        Console.WriteLine("Only round positive and negative numbers are accepted");
+        break;
     }
+    
+    Console.Clear();
 
-    if (answer == question.Answer)
+    Console.WriteLine($"\nSelected difficulty: {difficulty}");
+
+    List<QuestionModel> questions = questionsHelper.ReturnCorrectDifficultyQuestionsList(questionsTiers, difficulty);
+
+    Console.WriteLine($"Number of questions: {questions.Count}");
+
+    Console.WriteLine("\nGame starting in... \n");
+
+    for (int i = 3; i > 0; i--)
     {
-        Console.WriteLine("Correct");
-        correctAnswers++;
+        Console.WriteLine($"{i}...");
+
+        Thread.Sleep(1000);
     }
-    else
-        Console.WriteLine("Incorrect");
-}
+
+    Console.WriteLine("Go\n");
+
+    stopwatch.Start();
+
+    int correctAnswers = 0;
+
+    foreach (var question in questions)
+    {
+        int answer;
+
+        while (true)
+        {
+            Console.WriteLine(question.Text);
+
+            Console.WriteLine("Your answer: ");
+
+            if (int.TryParse(Console.ReadLine(), out answer))
+            {
+                break;
+            }
+
+            Console.WriteLine("Only round positive and negative numbers are accepted");
+        }
+
+        if (answer == question.Answer)
+        {
+            Console.WriteLine("Correct");
+            correctAnswers++;
+        }
+        else
+            Console.WriteLine("Incorrect");
+    }
 
 
-stopwatch.Stop();
+    stopwatch.Stop();
 
-Console.WriteLine($"Time taken to solve the questions: {stopwatch.Elapsed.Minutes}min {stopwatch.Elapsed.Seconds}sec");
+    Console.WriteLine(
+        $"\nTime taken to solve the questions: {stopwatch.Elapsed.Minutes}min {stopwatch.Elapsed.Seconds}sec");
 
-Console.WriteLine($"Number of correct answers: {correctAnswers}");
+    Console.WriteLine($"Number of correct answers: {correctAnswers} \n");
+    
+    Console.WriteLine("Go again? \nYes \nNo");
+
+    switch (Console.ReadLine()?.ToLower())
+    {
+        case "yes":
+            Console.Clear();
+            break;
+        case "no":
+            gameloop = false;
+            break;
+    }
+    
+} while (gameloop);
+
+Console.WriteLine("\nPress any key to exit");
 
 Console.ReadLine();
