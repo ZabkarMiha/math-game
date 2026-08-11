@@ -24,15 +24,25 @@ while (true)
     }
     catch (Exception e)
     {
-        Console.WriteLine($"Something went wrong. {e.Message}");
-        Console.WriteLine("\nRetry? \nYes \nNo \n");
-
-        switch (Console.ReadLine())
+        while (true)
         {
-            case "Yes":
-                break;
-            case "No":
-                throw;
+            Console.WriteLine($"Something went wrong. {e.Message}");
+            Console.WriteLine("\nRetry? \nYes \nNo \n");
+
+            switch (Console.ReadLine())
+            {
+                case "Yes":
+                    break;
+                case "No":
+                    throw;
+                default:
+                    Console.WriteLine("\nInvalid choice");
+                    Thread.Sleep(1500);
+                    Console.Clear();
+                    continue;
+            }
+
+            break;
         }
     }
 }
@@ -64,7 +74,9 @@ do
                 difficulty = difficultyHelper.ReturnRandomDifficulty();
                 break;
             default:
-                Console.WriteLine("Invalid choice");
+                Console.WriteLine("\nInvalid choice");
+                Thread.Sleep(1500);
+                Console.Clear();
                 continue;
         }
 
@@ -116,7 +128,11 @@ do
                 break;
             }
 
-            Console.WriteLine("Only round positive and negative numbers are accepted");
+            Console.WriteLine("\nOnly round positive and negative numbers are accepted");
+
+            Thread.Sleep(1500);
+
+            Console.Clear();
         }
 
         if (answer == question.Answer)
@@ -134,12 +150,14 @@ do
 
     stopwatch.Stop();
 
+    string stopwatchTime = $"{stopwatch.Elapsed.Minutes}min {stopwatch.Elapsed.Seconds}sec";
+
     ResultModel result = new()
     {
         Difficulty = difficulty,
         Questions = questions,
         Answers = answers,
-        TimeTaken = $"{stopwatch.Elapsed.Minutes}min {stopwatch.Elapsed.Seconds}sec",
+        TimeTaken = stopwatchTime,
         CorrectAnswers = correctAnswers
     };
 
@@ -148,40 +166,60 @@ do
     results.Add(result);
 
     Console.WriteLine(
-        $"Time taken to solve the questions: {stopwatch.Elapsed.Minutes}min {stopwatch.Elapsed.Seconds}sec");
+        $"Time taken to solve the questions: {stopwatchTime}");
 
-    Console.WriteLine($"Number of correct answers: {correctAnswers}");
+    Console.WriteLine($"Number of correct answers: {correctAnswers} \n");
 
-    Console.WriteLine("\nGo again? \nYes \nNo \n");
-
-    switch (Console.ReadLine()?.ToLower())
+    while (true)
     {
-        case "yes":
-            Console.Clear();
-            break;
-        case "no":
-            gameloop = false;
-            break;
+        Console.WriteLine("Go again? \nYes \nNo \n");
+
+        switch (Console.ReadLine()?.ToLower())
+        {
+            case "yes":
+                Console.Clear();
+                break;
+            case "no":
+                gameloop = false;
+                break;
+            default:
+                Console.WriteLine("\nInvalid choice");
+                Thread.Sleep(1500);
+                Console.Clear();
+                continue;
+        }
+
+        break;
     }
 } while (gameloop);
 
 Console.Clear();
 
-Console.WriteLine("Would you like to view your results? \nYes \nNo \n");
-
-switch (Console.ReadLine())
+while (true)
 {
-    case "yes":
-        Console.Clear();
-        foreach (var result in results)
-        {
-            Console.WriteLine(result.ToString());
-        }
+    Console.WriteLine("Would you like to view your results? \nYes \nNo \n");
 
-        break;
-    case "no":
-        Console.Clear();
-        break;
+    switch (Console.ReadLine())
+    {
+        case "yes":
+            Console.Clear();
+            foreach (var result in results)
+            {
+                Console.WriteLine(result.ToString());
+            }
+
+            break;
+        case "no":
+            Console.Clear();
+            break;
+        default:
+            Console.WriteLine("\nInvalid choice");
+            Thread.Sleep(1500);
+            Console.Clear();
+            continue;
+    }
+
+    break;
 }
 
 Console.WriteLine("Press any key to exit");
