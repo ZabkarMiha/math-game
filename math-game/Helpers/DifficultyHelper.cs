@@ -2,9 +2,9 @@ using math_game.Lib;
 
 namespace math_game.Helpers;
 
-public class DifficultyHelper
+public static class DifficultyHelper
 {
-    public DifficultyChoices ReturnRandomDifficulty()
+    public static DifficultyChoices ReturnRandomDifficulty()
     {
         DifficultyChoices[] difficultyChoicesArray = Enum.GetValues<DifficultyChoices>();
         

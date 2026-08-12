@@ -5,7 +5,7 @@ using math_game.Models;
 
 namespace math_game.Helpers;
 
-public class QuestionsHelper
+public static class QuestionsHelper
 {
     private static readonly JsonSerializerOptions Options = new()
     {
@@ -16,7 +16,7 @@ public class QuestionsHelper
         }
     };
 
-    public List<QuestionTierModel> ReturnAllQuestionTiers()
+    public static List<QuestionTierModel> ReturnAllQuestionTiers()
     {
         List<QuestionTierModel> questionsTierList = [];
         
@@ -27,7 +27,7 @@ public class QuestionsHelper
         return questionsTierList;
     }
 
-    public List<QuestionModel> ReturnCorrectDifficultyQuestionsList(List<QuestionTierModel> questionsTiers,
+    public static List<QuestionModel> ReturnCorrectDifficultyQuestionsList(List<QuestionTierModel> questionsTiers,
         DifficultyChoices difficulty)
     {
         List<QuestionModel> questions = [];
@@ -37,7 +37,7 @@ public class QuestionsHelper
         return RandomizeQuestionsList(questions);
     }
     
-    private void PopulateFromDifficultyChoice(List<QuestionTierModel> questionTierList, DifficultyChoices difficultyChoice,
+    private static void PopulateFromDifficultyChoice(List<QuestionTierModel> questionTierList, DifficultyChoices difficultyChoice,
         List<QuestionModel> questionsList)
     {
         if (difficultyChoice is DifficultyChoices.Easy or DifficultyChoices.Medium or DifficultyChoices.Hard)
@@ -59,7 +59,7 @@ public class QuestionsHelper
         }
     }
 
-    private List<QuestionModel> RandomizeQuestionsList(List<QuestionModel> questions)
+    private static List<QuestionModel> RandomizeQuestionsList(List<QuestionModel> questions)
     {
         return questions.OrderBy(x => Guid.NewGuid()).ToList();
     }

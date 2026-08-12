@@ -5,9 +5,7 @@ using math_game.Lib;
 
 Console.WriteLine("Welcome to the MathGame \n");
 
-//Initialize helpers and lists
-QuestionsHelper questionsHelper = new();
-DifficultyHelper difficultyHelper = new();
+//Initialize stopwatch and lists
 Stopwatch stopwatch = new();
 List<QuestionTierModel> questionsTiers;
 List<ResultModel> results = [];
@@ -17,7 +15,7 @@ while (true)
 {
     try
     {
-        questionsTiers = questionsHelper.ReturnAllQuestionTiers();
+        questionsTiers = QuestionsHelper.ReturnAllQuestionTiers();
         break;
     }
     catch (Exception e)
@@ -34,12 +32,12 @@ bool gameloop;
 
 do
 {
-    DifficultyChoices difficulty = DifficultyChoice(difficultyHelper);
+    DifficultyChoices difficulty = DifficultyChoice();
 
     Console.Clear();
     Console.WriteLine($"Selected difficulty: {difficulty}");
 
-    List<QuestionModel> questions = questionsHelper.ReturnCorrectDifficultyQuestionsList(questionsTiers, difficulty);
+    List<QuestionModel> questions = QuestionsHelper.ReturnCorrectDifficultyQuestionsList(questionsTiers, difficulty);
     List<int> answers = [];
 
     Console.WriteLine($"Number of questions: {questions.Count}");
@@ -139,7 +137,7 @@ Console.ReadLine();
 return;
 
 //Difficulty choice method
-DifficultyChoices DifficultyChoice(DifficultyHelper difficultyHelper1)
+DifficultyChoices DifficultyChoice()
 {
     DifficultyChoices difficulty;
     while (true)
@@ -162,7 +160,7 @@ DifficultyChoices DifficultyChoice(DifficultyHelper difficultyHelper1)
                 difficulty = DifficultyChoices.Mixed;
                 break;
             case "random":
-                difficulty = difficultyHelper1.ReturnRandomDifficulty();
+                difficulty = DifficultyHelper.ReturnRandomDifficulty();
                 break;
             default:
                 Console.WriteLine("\nInvalid choice");
