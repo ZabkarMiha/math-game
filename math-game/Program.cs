@@ -34,39 +34,7 @@ bool gameloop;
 
 do
 {
-    DifficultyChoices difficulty;
-
-    while (true)
-    {
-        Console.WriteLine("Choose difficulty (case insensitive)");
-        Console.WriteLine("\nEasy \nMedium \nHard \nMixed \nRandom \n");
-
-        switch (Console.ReadLine()?.ToLower())
-        {
-            case "easy":
-                difficulty = DifficultyChoices.Easy;
-                break;
-            case "medium":
-                difficulty = DifficultyChoices.Medium;
-                break;
-            case "hard":
-                difficulty = DifficultyChoices.Hard;
-                break;
-            case "mixed":
-                difficulty = DifficultyChoices.Mixed;
-                break;
-            case "random":
-                difficulty = difficultyHelper.ReturnRandomDifficulty();
-                break;
-            default:
-                Console.WriteLine("\nInvalid choice");
-                Thread.Sleep(1500);
-                Console.Clear();
-                continue;
-        }
-
-        break;
-    }
+    DifficultyChoices difficulty = DifficultyChoice(difficultyHelper);
 
     Console.Clear();
     Console.WriteLine($"Selected difficulty: {difficulty}");
@@ -169,6 +137,45 @@ else
 Console.WriteLine("Press any key to exit");
 Console.ReadLine();
 return;
+
+//Difficulty choice method
+DifficultyChoices DifficultyChoice(DifficultyHelper difficultyHelper1)
+{
+    DifficultyChoices difficulty;
+    while (true)
+    {
+        Console.WriteLine("Choose difficulty (case insensitive)");
+        Console.WriteLine("\nEasy \nMedium \nHard \nMixed \nRandom \n");
+
+        switch (Console.ReadLine()?.ToLower())
+        {
+            case "easy":
+                difficulty = DifficultyChoices.Easy;
+                break;
+            case "medium":
+                difficulty = DifficultyChoices.Medium;
+                break;
+            case "hard":
+                difficulty = DifficultyChoices.Hard;
+                break;
+            case "mixed":
+                difficulty = DifficultyChoices.Mixed;
+                break;
+            case "random":
+                difficulty = difficultyHelper1.ReturnRandomDifficulty();
+                break;
+            default:
+                Console.WriteLine("\nInvalid choice");
+                Thread.Sleep(1200);
+                Console.Clear();
+                continue;
+        }
+
+        break;
+    }
+
+    return difficulty;
+}
 
 //Yes or No prompt method
 bool AskYesNo(string prompt)
